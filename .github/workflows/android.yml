@@ -5,6 +5,7 @@ on:
       - 'SW375_android_min.zip'
       - 'mobile_v19.py'
       - 'mobile_v20.py'
+      - 'catalog_v111.py'
       - '.github/workflows/android.yml'
   workflow_dispatch:
 
@@ -49,6 +50,9 @@ jobs:
 
       - name: Apply tile gestures v1.10
         run: python3 mobile_v20.py
+
+      - name: Apply catalog audit v1.11
+        run: python3 catalog_v111.py
 
       - name: Validate JavaScript
         run: node --check project/app/src/main/assets/app.js
