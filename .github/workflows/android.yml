@@ -4,6 +4,7 @@ on:
     paths:
       - 'SW375_android_min.zip'
       - 'mobile_v19.py'
+      - 'mobile_v20.py'
       - '.github/workflows/android.yml'
   workflow_dispatch:
 
@@ -45,6 +46,12 @@ jobs:
 
       - name: Apply mobile v1.9 layout patch
         run: python3 mobile_v19.py
+
+      - name: Apply tile gestures v1.10
+        run: python3 mobile_v20.py
+
+      - name: Validate JavaScript
+        run: node --check project/app/src/main/assets/app.js
 
       - name: Install Gradle 8.7
         shell: bash
