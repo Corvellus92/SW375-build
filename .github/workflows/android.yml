@@ -8,6 +8,7 @@ on:
       - 'catalog_v111.py'
       - 'catalog_v112.py'
       - 'catalog_v113.py'
+      - 'catalog_v114.py'
       - '.github/workflows/android.yml'
   workflow_dispatch:
 
@@ -62,6 +63,9 @@ jobs:
       - name: Apply vintage Kenner audit v1.13
         run: python3 catalog_v113.py
 
+      - name: Apply POTF2 and Episode I audit v1.14
+        run: python3 catalog_v114.py
+
       - name: Verify catalog consistency
         shell: bash
         run: |
@@ -71,7 +75,7 @@ jobs:
           raw=Path('project/app/src/main/assets/data.js').read_text(encoding='utf-8')
           data=json.loads(raw.split('=',1)[1].rstrip(';\n '))
           cats=data['categories']
-          assert sum(len(v) for v in cats.values())==1204
+          assert sum(len(v) for v in cats.values())==1221
           for c,items in cats.items():
               ids=[r['id'] for r in items]
               names=[r['entity'].casefold() for r in items]
@@ -83,6 +87,10 @@ jobs:
           assert any(x['entity']=='Rebel Transport' for x in cats['vehicles'])
           assert any(x['entity']=='R2-D2 Carry Case' for x in cats['accessories'])
           assert not any(x['entity']=='R2-D2 Carry Case' for x in cats['playsets'])
+          assert any(x['entity']=="Figrin D'an" for x in cats['figures'])
+          assert any(x['entity']=="POTF2 Millennium Falcon Gunner Station" for x in cats['playsets'])
+          assert any(x['entity']=="Sith Accessory Set" for x in cats['accessories'])
+          assert len([x for x in cats['accessories'] if x['entity']=="R2-D2 Carry Case"])==1
           print('Catalog OK:',{c:len(v) for c,v in cats.items()})
           PY
 
