@@ -81,7 +81,7 @@ html=html.replace("</head>", """
 htmlp.write_text(html,encoding="utf-8")
 
 gradle=gradlep.read_text(encoding="utf-8")
-gradle=re.sub(r"versionCode\\s+\\d+", "versionCode 21", gradle)
+gradle=re.sub(r"versionCode\s+\d+", "versionCode 21", gradle)
 gradle=re.sub(r'versionName\\s+"[^"]+"', 'versionName "1.10-tile-owned"', gradle)
 gradlep.write_text(gradle,encoding="utf-8")
 print("v1.10 tile gestures applied.")
