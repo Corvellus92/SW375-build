@@ -27,7 +27,6 @@ jobs:
             echo "sdkmanager not found"
             exit 1
           fi
-          echo "Using $SDKMANAGER"
           yes | "$SDKMANAGER" --licenses >/dev/null || true
           "$SDKMANAGER" "platform-tools" "platforms;android-34" "build-tools;34.0.0"
 
@@ -37,13 +36,16 @@ jobs:
           mkdir project
           unzip -o SW375_android_min.zip -d project
 
-      - uses: gradle/actions/setup-gradle@v4
-        with:
-          gradle-version: '8.7'
+      - name: Install Gradle 8.7
+        shell: bash
+        run: |
+          curl -L --fail --retry 3 -o /tmp/gradle-8.7-bin.zip https://services.gradle.org/distributions/gradle-8.7-bin.zip
+          unzip -q /tmp/gradle-8.7-bin.zip -d /tmp
+          /tmp/gradle-8.7/bin/gradle --version
 
       - name: Build debug APK
         working-directory: project
-        run: gradle --no-daemon assembleDebug
+        run: /tmp/gradle-8.7/bin/gradle --no-daemon assembleDebug
 
       - uses: actions/upload-artifact@v4
         with:
