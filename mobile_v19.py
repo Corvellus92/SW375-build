@@ -59,13 +59,9 @@ js = js.replace(
     '<article class="item" onclick="if(itemView===\'tiles\' && !event.target.closest(\'.pic,.name,.actions\'))details(\'\u0024{r.id}\')"><div class="pic" onclick="details(',
     1
 )
-# Update tile/list CSS after every item list render.
-needle = '  $("#list").innerHTML=f.map(r=>'
-assert needle in js
-start = js.index(needle)
-end = js.find("\n", start)
-assert end != -1
-js = js[:end] + "\n  updateItemView();" + js[end:]
+# Apply layout after each list redraw.
+assert 'hydrateAutoImages($("#browser"));' in js
+js = js.replace('hydrateAutoImages($("#browser"));', 'hydrateAutoImages($("#browser"));updateItemView();', 1)
 js_path.write_text(js, encoding="utf-8")
 
 gradle = gradle_path.read_text(encoding="utf-8")
