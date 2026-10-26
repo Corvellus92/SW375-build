@@ -36,6 +36,12 @@ jobs:
           mkdir project
           unzip -o SW375_android_min.zip -d project
 
+      - name: Fix CI Java path
+        shell: bash
+        run: |
+          sed -i '/^org\.gradle\.java\.home=/d' project/gradle.properties
+          cat project/gradle.properties
+
       - name: Install Gradle 8.7
         shell: bash
         run: |
