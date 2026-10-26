@@ -6,6 +6,7 @@ on:
       - 'mobile_v19.py'
       - 'mobile_v20.py'
       - 'catalog_v111.py'
+      - 'catalog_v112.py'
       - '.github/workflows/android.yml'
   workflow_dispatch:
 
@@ -53,6 +54,29 @@ jobs:
 
       - name: Apply catalog audit v1.11
         run: python3 catalog_v111.py
+
+      - name: Apply catalog audit v1.12
+        run: python3 catalog_v112.py
+
+      - name: Verify catalog consistency
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          raw=Path('project/app/src/main/assets/data.js').read_text(encoding='utf-8')
+          data=json.loads(raw.split('=',1)[1].rstrip(';\n '))
+          cats=data['categories']
+          assert sum(len(v) for v in cats.values())==1175
+          for c,items in cats.items():
+              ids=[r['id'] for r in items]
+              names=[r['entity'].casefold() for r in items]
+              assert len(ids)==len(set(ids)),c
+              assert len(names)==len(set(names)),c
+          assert any(x['entity']=="Darth Vader’s Star Destroyer" for x in cats['playsets'])
+          assert not any(x['entity']=="Darth Vader’s Star Destroyer" for x in cats['vehicles'])
+          print('Catalog OK:',{c:len(v) for c,v in cats.items()})
+          PY
 
       - name: Validate JavaScript
         run: node --check project/app/src/main/assets/app.js
