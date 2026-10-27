@@ -9,6 +9,7 @@ on:
       - 'catalog_v112.py'
       - 'catalog_v113.py'
       - 'catalog_v114.py'
+      - 'catalog_v115.py'
       - '.github/workflows/android.yml'
   workflow_dispatch:
 
@@ -66,6 +67,9 @@ jobs:
       - name: Apply POTF2 and Episode I audit v1.14
         run: python3 catalog_v114.py
 
+      - name: Apply POTJ Saga OTC audit v1.15
+        run: python3 catalog_v115.py
+
       - name: Verify catalog consistency
         shell: bash
         run: |
@@ -75,7 +79,7 @@ jobs:
           raw=Path('project/app/src/main/assets/data.js').read_text(encoding='utf-8')
           data=json.loads(raw.split('=',1)[1].rstrip(';\n '))
           cats=data['categories']
-          assert sum(len(v) for v in cats.values())==1221
+          assert sum(len(v) for v in cats.values())==1233
           for c,items in cats.items():
               ids=[r['id'] for r in items]
               names=[r['entity'].casefold() for r in items]
@@ -91,6 +95,11 @@ jobs:
           assert any(x['entity']=="POTF2 Millennium Falcon Gunner Station" for x in cats['playsets'])
           assert any(x['entity']=="Sith Accessory Set" for x in cats['accessories'])
           assert len([x for x in cats['accessories'] if x['entity']=="R2-D2 Carry Case"])==1
+          assert any(x['entity']=="Rorworr" for x in cats['figures'])
+          assert any(x['entity']=="Captain Antilles" for x in cats['figures'])
+          assert any(x['entity']=="Rabé" for x in cats['figures'])
+          assert any(x['entity']=="Kouhun" for x in cats['creatures'])
+          assert any(x['entity']=="Wol Cabbashite" for x in cats['creatures'])
           print('Catalog OK:',{c:len(v) for c,v in cats.items()})
           PY
 
