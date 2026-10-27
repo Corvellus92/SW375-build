@@ -28,8 +28,8 @@ desktop_css=r"""
  #list.tiles .name{font-size:13px;min-height:36px}
  #list:not(.tiles){display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
  #list:not(.tiles) .item{margin:0}
- #globalResults{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
- #globalResults .item{margin:0}
+ #globalList{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+ #globalList .item{margin:0}
  #dashboard .stats,#browser .stats{grid-template-columns:repeat(4,1fr);gap:14px}
  #dashboard .stat,#browser .stat{padding:18px;font-size:13px}
  #dashboard .stat b,#browser .stat b{font-size:26px}
