@@ -1,0 +1,9 @@
+{
+  "name": "Star Wars 3.75 Collection",
+  "short_name": "SW 3.75",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0b0d12",
+  "theme_color": "#0b0d12",
+  "icons": []
+}
