@@ -9,7 +9,7 @@ Download the **375-Collection-PC-Web** artifact from [GitHub Actions](./actions/
 
 Features: responsive desktop grid, dashboard, global search, collection editor, JSON backup, CSV export, HU/EN/DE languages, optional PC-phone sync.
 
-**Important:** This repository is private and GitHub Pages is not enabled. To publish the website online, enable GitHub Pages under Settings > Pages (or use a public repository if your GitHub plan does not support private-repository Pages). Select branch `main` and folder `/web` is **not** an option in GitHub Pages branch publishing; use a `/docs` folder, `gh-pages` branch, or a GitHub Actions Pages workflow. Do not assume a public Pages URL exists yet.
+**Important:** This repository is private and GitHub Pages is not enabled. To publish the website online, enable GitHub Pages under Settings > Pages (or use a public repository if your GitHub plan does not support private-repository Pages). For branch publishing, select branch `main` and folder `/docs` (already generated automatically). Do not assume a public Pages URL exists yet.
 
 Personal collection data is stored locally in the browser; back it up using JSON export. Different browsers or devices do not automatically share local storage.
 
