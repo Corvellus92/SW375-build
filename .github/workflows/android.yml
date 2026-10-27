@@ -11,6 +11,9 @@ on:
       - 'catalog_v114.py'
       - 'catalog_v115.py'
       - 'catalog_v116.py'
+      - 'catalog_v117.py'
+      - 'dashboard_v117.py'
+      - 'browse_v117.py'
       - '.github/workflows/android.yml'
   workflow_dispatch:
 
@@ -74,6 +77,12 @@ jobs:
       - name: Apply ROTS and Saga audit v1.16
         run: python3 catalog_v116.py
 
+      - name: Apply major v1.17 upgrade
+        run: |
+          python3 catalog_v117.py
+          python3 dashboard_v117.py
+          python3 browse_v117.py
+
       - name: Verify catalog consistency
         shell: bash
         run: |
@@ -83,7 +92,7 @@ jobs:
           raw=Path('project/app/src/main/assets/data.js').read_text(encoding='utf-8')
           data=json.loads(raw.split('=',1)[1].rstrip(';\n '))
           cats=data['categories']
-          assert sum(len(v) for v in cats.values())==1250
+          assert sum(len(v) for v in cats.values())==1257
           for c,items in cats.items():
               ids=[r['id'] for r in items]
               names=[r['entity'].casefold() for r in items]
@@ -109,6 +118,14 @@ jobs:
           assert any(x['entity']=="R4-K5" for x in cats['droids'])
           assert any(x['entity']=="R4-M6" for x in cats['droids'])
           assert any(x['entity']=="Vader's Medical Droid" for x in cats['droids'])
+          assert any(x['entity']=="McQuarrie Concept Darth Vader" for x in cats['figures'])
+          assert any(x['entity']=="McQuarrie Concept R2-D2" for x in cats['droids'])
+          html=Path('project/app/src/main/assets/index.html').read_text()
+          js=Path('project/app/src/main/assets/app.js').read_text()
+          for key in ['dashboard','dashWishlist','batchBar','globalCategory','browserMore','globalMore']:
+              assert 'id="'+key+'"' in html,key
+          for key in ['function dashboardOpen','function csvExport','function bulkApply','function sorted']:
+              assert key in js,key
           print('Catalog OK:',{c:len(v) for c,v in cats.items()})
           PY
 
